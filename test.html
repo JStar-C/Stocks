@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>  
+    <meta charset="uft-8">
+    <meta lang="en-us">
+    <script>
+        const url = "https://finnhub.io/api/v1/quote?symbol=VOO&token=bu1s0en48v6sao5lvgs0";
+        async function myTest() {
+            const response = await fetch(url);
+            var data = await response.json();
+            window.alert("Stock price: $" + (data.c * .7768498738).toFixed(2));
+            console.log(data);
+        }
+    </script>
+</head>
+
+<body>
+    <button onClick="myTest()">Click here</button>
+</body>
+
+</html>
