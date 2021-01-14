@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+
+<html lang="en-us" style="color:rgb(73, 73, 73);font-size: 150%; font-family:cursive;">
+
+<head>
+<style>
+    #money {
+        color:rgb(0, 201, 0);
+        text-shadow: 0px 0px 25px lime;
+    }
+</style>
+</head>
+
+<body>
+    <center><h1><span style="font-family: Segoe UI Emoji;">🌧</span>The Rainy Day Fund<span style="font-family: Segoe UI Emoji;">🌧</span></h1></center>
+    <center>Your savings total: <span id="money"></span></center>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+        var startDate = new Date(2021, 0, 14);
+        var endDate = new Date();
+
+        var Difference_In_Time = endDate.getTime() - startDate.getTime(); 
+        var Difference_In_Days = Math.floor(Difference_In_Time / (1000 * 3600 * 24)); 
+
+        var principal = 100.00;
+        var rate = 0.05 / 365;
+        var interest, subtotal, total;
+
+        for(let i = 0; i < Difference_In_Days; ++i)
+        {
+            interest = principal * rate;
+            principal += interest;
+        }
+
+        $("#money").text(`$${principal.toFixed(2)}`);
+
+    </script>
+</body>
+
+</html>
