@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>  
+    <meta charset="uft-8">
+    <meta lang="en-us">
+    <title>Tammy's Stocks</title>
+    <style>
+        html {
+            font-size: 200%;
+            background-color: rgb(48, 48, 48);
+            color: silver;
+        }
+        .gain {
+            color : lime;
+            text-shadow: 0px 0px 15px lime;
+        }
+
+        .loss {
+            color : red;
+            text-shadow: 0px 0px 15px red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="list">
+        <pre>GNUS <span id="GNUS">loading</span></pre>
+        <pre>NAKD <span id="NAKD">loading</span></pre>
+        <pre>NOK  <span id="NOK" >loading</span></pre>
+        <pre>BBW  <span id="BBW" >loading</span></pre>
+        <pre>EXPR <span id="EXPR">loading</span></pre>
+    </div>
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        async function getPrice(symbol) {
+            let response = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=bu1s0en48v6sao5lvgs0`);
+            let data = await response.json();
+            return data.c;
+        }
+
+        async function getValues() {
+            while (true) {
+                let GNUS_net = (await getPrice("GNUS") *  5 - 10.83);
+                let NAKD_net = (await getPrice("NAKD") * 10 - 22.10);
+                let NOK_net  = (await getPrice("NOK" ) *  5 - 25.25);
+                let BBW_net  = (await getPrice("BBW" ) *  5 - 29.55);
+                let EXPR_net = (await getPrice("EXPR") *  5 - 37.10);
+
+                $("#GNUS")
+                    .text(`$${Math.abs(GNUS_net).toFixed(2)}`)
+                    .addClass(GNUS_net > 0 ? "gain" : "loss");
+                $("#NAKD")
+                    .text(`$${Math.abs(NAKD_net).toFixed(2)}`)
+                    .addClass(NAKD_net > 0 ? "gain" : "loss");
+                $("#NOK" )
+                    .text(`$${Math.abs(NOK_net ).toFixed(2)}`)
+                    .addClass(NOK_net  > 0 ? "gain" : "loss");
+                $("#BBW" )
+                    .text(`$${Math.abs(BBW_net ).toFixed(2)}`)
+                    .addClass(BBW_net  > 0 ? "gain" : "loss");
+                $("#EXPR")
+                    .text(`$${Math.abs(EXPR_net).toFixed(2)}`)
+                    .addClass(EXPR_net > 0 ? "gain" : "loss");
+
+                //console.log("refreshed");
+                
+                await sleep(10000);
+            }
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        $(document).ready(getValues());
+
+
+    </script>
+</body>
+
+</html>
