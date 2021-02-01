@@ -34,17 +34,23 @@
         var startDate = new Date(2021, 0, 14);
         var endDate = new Date();
 
-        var Difference_In_Time = endDate.getTime() - startDate.getTime(); 
-        var Difference_In_Days = Math.floor(Difference_In_Time / (1000 * 3600 * 24)); 
+        var DifferenceInTime = endDate.getTime() - startDate.getTime(); 
+        var DifferenceInDays = Math.floor(DifferenceInTime / (1000 * 3600 * 24)); 
 
         var principal = 100.00;
         var rate = 0.05 / 365;
         var interest, subtotal, total;
+        
+        var date1 = new Date(2021, 1, 8);
+        var indexOfRateIncrease = Math.floor((date1.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
 
         for(let i = 0; i < Difference_In_Days; ++i)
         {
             interest = principal * rate;
             principal += interest;
+            
+            // Daily Modifications
+            if (i == indexOfRateIncrease) { rate = 0.06 / 365; }
         }
 
         $("#money").text(`$${principal.toFixed(2)}`);
