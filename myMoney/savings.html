@@ -24,7 +24,7 @@
 
 <body>
     <center><h1><span style="font-family: Segoe UI Emoji;">🌧</span>The Rainy Day Fund<span style="font-family: Segoe UI Emoji;">🌧</span></h1></center>
-    <center>Your savings total: <span id="money"></span></center>
+    <center>Your savings total: <span id="money"></span></center><p>Update: as of 02/08/2021, interest rate was increased to 6%</p>
     <span id="sticker">compound interest updated daily at 00:00</span>
 
     <!-- jQuery -->
@@ -35,7 +35,7 @@
         var endDate = new Date();
 
         var DifferenceInTime = endDate.getTime() - startDate.getTime(); 
-        var DifferenceInDays = Math.floor(DifferenceInTime / (1000 * 3600 * 24)); 
+        var DifferenceInDays = Math.floor(DifferenceInTime / (1000 * 3600 * 24)) + 33; 
 
         var principal = 100.00;
         var rate = 0.05 / 365;
