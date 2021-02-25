@@ -1,65 +1,118 @@
 <!DOCTYPE html>
 
-<html lang="en-us" style="color:rgb(204, 204, 204);font-size: 200%; font-family:cursive;">
+<html lang="en-us">
 
 <head>
-<style>
-    body {
-        background-color: rgb(66, 66, 66);
-    }
+    <style>
+        html {
+            color:rgb(204, 204, 204);
+            font-size: 225%; 
+            font-family:cursive;
+        }
 
-    #sticker {
-        position: fixed;
-        bottom: 5px;
-        right: 5px;
-        font-size: 50%;
-    }
+        body {
+            background-color: rgb(66, 66, 66);
+        }
 
-    #money {
-        color:rgb(0, 201, 0);
-        text-shadow: 0px 0px 25px lime;
-    }
-    
-    #notice {
-        color:yellow;
-        text-shadow: 0px 0px 25px yellow;
-    }
-</style>
+        #sticker {
+            position: fixed;
+            bottom: 5px;
+            right: 5px;
+            font-size: 50%;
+        }
+
+        #money {
+            color: rgb(0, 201, 0);
+            text-shadow: 0px 0px 25px lime;
+        }
+
+        .notice {
+            color: yellow;
+            text-shadow: 0px 0px 25px yellow;
+        }
+
+        .clouds {
+            font-family: Segoe UI Emoji;
+            color: rgb(43, 135, 255);
+            text-shadow: 0px 20px 55px rgb(43, 135, 255);
+        }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+.fading-background {
+    background: linear-gradient(45deg, #6e6e6e, #464646, #101010);
+    background-size: 600% 600%;
+
+    -webkit-animation: AnimationName 20s ease infinite;
+    -moz-animation: AnimationName 20s ease infinite;
+    -o-animation: AnimationName 20s ease infinite;
+    animation: AnimationName 20s ease infinite;
+}
+
+@-webkit-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-moz-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@-o-keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+@keyframes AnimationName {
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+    </style>
 </head>
 
-<body>
-    <center><h1><span style="font-family: Segoe UI Emoji;">🌧</span>The Rainy Day Fund<span style="font-family: Segoe UI Emoji;">🌧</span></h1></center>
-    <center>Your savings total: <span id="money"></span></center>
-    <p style="font-size:50%"><span id="notice">Update</span>: as of 02/08/2021, interest rate was increased to 6%</p>
-    <span id="sticker">compound interest updated daily at 00:00</span>
+<body class="fading-background">
 
-    <!-- jQuery -->
+    <audio id="thunderstorm" autoplay loop>
+        <source src="thunderstorm.mp3" type="audio/mpeg">
+    </audio>
+    <center>
+        <h1><span class="clouds">🌧</span>The Rainy Day Fund<span class="clouds">🌧</span></h1>
+    </center>
+    <center>Your savings total: <span id="money"></span></center>
+    <p style="font-size:50%"><span class="notice">Update</span>: as of 02/08/2021, interest rate was increased to 6%</p>
+    <p style="font-size:50%"><span class="notice">Update</span>: as of 02/24/2021, interest will be compounded each second retroactively</p>
+    <span id="sticker">Not FDIC insured, investments may lose value</span>
+
+    <!-- jQuery plug-in -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
 
-        var startDate = new Date(2021, 0, 14);
-        var endDate = new Date();
+        const SECONDS_MULIPLIER = 365 * 24 * 60 * 60; // days, hours, minutes, seconds
 
-        var DifferenceInTime = endDate.getTime() - startDate.getTime(); 
-        var DifferenceInDays = Math.floor(DifferenceInTime / (1000 * 3600 * 24)); 
+        let startDate = new Date(2021, 0, 14);
+        let endDate = new Date();
 
-        var principal = 100.00;
-        var rate = 0.05 / 365;
-        var interest, subtotal, total;
-        
-        var date1 = new Date(2021, 1, 8);
-        var indexOfRateIncrease = Math.floor((date1.getTime() - startDate.getTime()) / (1000 * 3600 * 24));
+        let DifferenceInSeconds = (endDate.getTime() / 1000) - (startDate.getTime() / 1000);
 
-        for(let i = 0; i < DifferenceInDays; ++i)
-        {
+        let principal = 100.00;
+        let rate = 0.05 / SECONDS_MULIPLIER;
+        let interest, subtotal, total;
+
+        let date1 = new Date(2021, 1, 8);
+        let indexOfRateIncrease = Math.floor((date1.getTime() / 1000) - (startDate.getTime() / 1000));
+
+        for (let i = 0; i < DifferenceInSeconds; ++i) {
             interest = principal * rate;
             principal += interest;
-            
-            // Daily Modifications
-            if (i == indexOfRateIncrease) { rate = 0.06 / 365; }
+
+            // rate modification
+            if (i == indexOfRateIncrease) { rate = 0.06 / SECONDS_MULIPLIER; }
         }
 
         $("#money").text(`$${principal.toFixed(2)}`);
+        $("#thunderstorm").volume = .2;
 
     </script>
 </body>
