@@ -3,6 +3,15 @@
 <html lang="en-us">
 
 <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="Joseph Calles" />
+
+    <title>Savings</title>
+
+    <link rel="icon" type="image/x-icon" href="coin.png" />
+
     <style>
         html {
             color:rgb(204, 204, 204);
@@ -38,6 +47,9 @@
         }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+/* https://www.gradient-animator.com/ */
+
 .fading-background {
     background: linear-gradient(45deg, #6e6e6e, #464646, #101010);
     background-size: 600% 600%;
@@ -75,7 +87,7 @@
 <body class="fading-background">
 
     <audio id="thunderstorm" autoplay loop>
-        <source src="thunderstorm.mp3" type="audio/mpeg">
+        <source src="thunderstorm.mp3" type="audio/mpeg" />
     </audio>
     <center>
         <h1><span class="clouds">🌧</span>The Rainy Day Fund<span class="clouds">🌧</span></h1>
@@ -88,32 +100,32 @@
     <!-- jQuery plug-in -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+        $(document).ready(function() {
+            const SECONDS_MULIPLIER = 365 * 24 * 60 * 60; // days, hours, minutes, seconds
 
-        const SECONDS_MULIPLIER = 365 * 24 * 60 * 60; // days, hours, minutes, seconds
+            let startDate = new Date(2021, 0, 14);
+            let endDate = new Date();
 
-        let startDate = new Date(2021, 0, 14);
-        let endDate = new Date();
+            let DifferenceInSeconds = (endDate.getTime() / 1000) - (startDate.getTime() / 1000);
 
-        let DifferenceInSeconds = (endDate.getTime() / 1000) - (startDate.getTime() / 1000);
+            let principal = 100.00;
+            let rate = 0.05 / SECONDS_MULIPLIER;
+            let interest, subtotal, total;
 
-        let principal = 100.00;
-        let rate = 0.05 / SECONDS_MULIPLIER;
-        let interest, subtotal, total;
+            let date1 = new Date(2021, 1, 8);
+            let indexOfRateIncrease = Math.floor((date1.getTime() / 1000) - (startDate.getTime() / 1000));
 
-        let date1 = new Date(2021, 1, 8);
-        let indexOfRateIncrease = Math.floor((date1.getTime() / 1000) - (startDate.getTime() / 1000));
+            for (let i = 0; i < DifferenceInSeconds; ++i) {
+                interest = principal * rate;
+                principal += interest;
 
-        for (let i = 0; i < DifferenceInSeconds; ++i) {
-            interest = principal * rate;
-            principal += interest;
+                // rate modification
+                if (i == indexOfRateIncrease) { rate = 0.06 / SECONDS_MULIPLIER; }
+            }
 
-            // rate modification
-            if (i == indexOfRateIncrease) { rate = 0.06 / SECONDS_MULIPLIER; }
-        }
-
-        $("#money").text(`$${principal.toFixed(2)}`);
-        $("#thunderstorm").volume = .2;
-
+            $("#money").text(`$${principal.toFixed(2)}`);
+            $("#thunderstorm").volume = .2;
+        });
     </script>
 </body>
 
