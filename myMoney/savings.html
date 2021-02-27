@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="author" content="Joseph Calles" />
-    
+
     <!-- https://jstar-c.github.io/Stocks/myMoney/savings.html -->
 
     <title>Savings</title>
@@ -19,10 +19,15 @@
             color:rgb(204, 204, 204);
             font-size: 225%; 
             font-family:cursive;
+            scroll-behavior: smooth;
         }
 
         body {
             background-color: rgb(66, 66, 66);
+        }
+
+        p {
+            font-size:50%;
         }
 
         #sticker {
@@ -42,62 +47,93 @@
             text-shadow: 0px 0px 25px yellow;
         }
 
+        #deposits {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            background-image: linear-gradient();
+            width: 40%;
+            height: 25%;
+            padding-left: 1em;
+            border-top: 5px rgb(45, 135, 255) solid;
+            overflow-y: scroll;
+            overflow-x: visible;
+        }
+
+        /* https://stackoverflow.com/questions/16670931 */
+        ::-webkit-scrollbar {
+            width: 0;  
+            background: transparent;  
+        }
+
+        .deposit {
+            color: rgb(45, 135, 255);
+            text-shadow: 0px 0px 25px rgb(45, 135, 255);
+        }
+
         .clouds {
             font-family: Segoe UI Emoji;
             color: rgb(43, 135, 255);
-            text-shadow: 0px 20px 55px rgb(43, 135, 255);
+            text-shadow: 0px 20px 55px rgb(45, 135, 255);
         }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /* https://www.gradient-animator.com/ */
 
-.fading-background {
-    background: linear-gradient(45deg, #6e6e6e, #464646, #101010);
-    background-size: 600% 600%;
+        .fading-background {
+            background: linear-gradient(45deg, #6e6e6e, #464646, #101010);
+            background-size: 600% 600%;
 
-    -webkit-animation: AnimationName 20s ease infinite;
-    -moz-animation: AnimationName 20s ease infinite;
-    -o-animation: AnimationName 20s ease infinite;
-    animation: AnimationName 20s ease infinite;
-}
+            -webkit-animation: AnimationName 20s ease infinite;
+            -moz-animation: AnimationName 20s ease infinite;
+            -o-animation: AnimationName 20s ease infinite;
+            animation: AnimationName 20s ease infinite;
+        }
 
-@-webkit-keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@-moz-keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@-o-keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
-@keyframes AnimationName {
-    0%{background-position:0% 50%}
-    50%{background-position:100% 50%}
-    100%{background-position:0% 50%}
-}
+        @-webkit-keyframes AnimationName {
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
+        @-moz-keyframes AnimationName {
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
+        @-o-keyframes AnimationName {
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
+        @keyframes AnimationName {
+            0%{background-position:0% 50%}
+            50%{background-position:100% 50%}
+            100%{background-position:0% 50%}
+        }
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
     </style>
+
 </head>
 
 <body class="fading-background">
 
+    <!-- background music -->
     <audio id="thunderstorm" autoplay loop>
         <source src="thunderstorm.mp3" type="audio/mpeg" />
     </audio>
-    <center>
+
+    <center> <!-- Main header -->
         <h1><span class="clouds">🌧</span>The Rainy Day Fund<span class="clouds">🌧</span></h1>
     </center>
+
     <center>Your savings total: <span id="money"></span></center>
-    <p style="font-size:50%"><span class="notice">Update</span>: as of 02/08/2021, interest rate was increased to 6%</p>
-    <p style="font-size:50%"><span class="notice">Update</span>: as of 02/24/2021, interest will be compounded each second retroactively</p>
+    <p><span class="notice">Update</span>: as of 02/08/2021, interest rate was increased to 6%</p>
+    <p><span class="notice">Update</span>: as of 02/24/2021, interest will be compounded each second retroactively</p>
     <span id="sticker">Not FDIC insured, investments may lose value</span>
+    <div id="deposits"></div>
 
     <!-- jQuery plug-in -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -106,27 +142,46 @@
             const SECONDS_MULIPLIER = 365 * 24 * 60 * 60; // days, hours, minutes, seconds
 
             let startDate = new Date(2021, 0, 14);
-            let endDate = new Date();
+                startDate = startDate.getTime() / 1000;
+            let endDate = Date.now() / 1000;
 
-            let DifferenceInSeconds = (endDate.getTime() / 1000) - (startDate.getTime() / 1000);
+            let DifferenceInSeconds = endDate - startDate;
 
             let principal = 100.00;
             let rate = 0.05 / SECONDS_MULIPLIER;
             let interest, subtotal, total;
 
+            // Rate modification
             let date1 = new Date(2021, 1, 8);
-            let indexOfRateIncrease = Math.floor((date1.getTime() / 1000) - (startDate.getTime() / 1000));
+            let indexOfRateIncrease = Math.floor((date1.getTime() / 1000) - startDate);
+
+            // Deposits
+            let deposits = new Map();
+            let depositsDateAmount = [
+                { date : "2021-02-26", amount : 20.00 }
+            ];
+
+            depositsDateAmount.forEach(function (currentValue, index, arr) {
+                let newDepositDate = new Date(currentValue.date);
+                deposits.set((newDepositDate.getTime() / 1000) - startDate, currentValue.amount);
+                $("#deposits").append(`<p><span class="deposit">Deposit</span>: $${currentValue.amount} on ${currentValue.date}</p>`);
+            });
 
             for (let i = 0; i < DifferenceInSeconds; ++i) {
                 interest = principal * rate;
                 principal += interest;
 
-                // rate modification
+                // Rate modification
                 if (i == indexOfRateIncrease) { rate = 0.06 / SECONDS_MULIPLIER; }
+
+                // Deposits
+                if (deposits.has(i)) {
+                    principal += deposits.get(i);   
+                }
             }
 
             $("#money").text(`$${principal.toFixed(2)}`);
-            $("#thunderstorm").volume = .2;
+
         });
     </script>
 </body>
