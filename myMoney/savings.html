@@ -17,7 +17,7 @@
     <style>
         html {
             color:rgb(204, 204, 204);
-            font-size: 225%; 
+            font-size: 250%; 
             font-family:cursive;
             scroll-behavior: smooth;
         }
@@ -28,6 +28,10 @@
 
         p {
             font-size:50%;
+        }
+
+        small {
+            font-size: 50%;
         }
 
         #sticker {
@@ -55,7 +59,7 @@
             width: 40%;
             height: 25%;
             padding-left: 1em;
-            border-top: 5px rgb(45, 135, 255) solid;
+            border-top: 5px rgb(75, 210, 255) solid;
             overflow-y: scroll;
             overflow-x: visible;
         }
@@ -67,14 +71,14 @@
         }
 
         .deposit {
-            color: rgb(45, 135, 255);
-            text-shadow: 0px 0px 25px rgb(45, 135, 255);
+            color: rgb(75, 210, 255);
+            text-shadow: 0px 0px 25px rgb(75, 210, 255);
         }
 
         .clouds {
             font-family: Segoe UI Emoji;
-            color: rgb(43, 135, 255);
-            text-shadow: 0px 20px 55px rgb(45, 135, 255);
+            color: rgb(75, 210, 255);
+            text-shadow: 0px 20px 55px rgb(75, 210, 255);
         }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -141,13 +145,13 @@
         $(document).ready(function() {
             const SECONDS_MULIPLIER = 365 * 24 * 60 * 60; // days, hours, minutes, seconds
 
-            let startDate = new Date(2021, 0, 14);
+            let startDate = new Date("2021-01-14");
                 startDate = startDate.getTime() / 1000;
             let endDate = Date.now() / 1000;
 
             let DifferenceInSeconds = endDate - startDate;
 
-            let principal = 100.00;
+            let principal = 0.00;
             let rate = 0.05 / SECONDS_MULIPLIER;
             let interest, subtotal, total;
 
@@ -158,7 +162,8 @@
             // Deposits
             let deposits = new Map();
             let depositsDateAmount = [
-                { date : "2021-02-26", amount : 20.00 }
+                { date : "2021-02-26", amount : 20.00  },
+                { date : "2021-01-14", amount : 100.00 }
             ];
 
             depositsDateAmount.forEach(function (currentValue, index, arr) {
@@ -168,19 +173,23 @@
             });
 
             for (let i = 0; i < DifferenceInSeconds; ++i) {
+
+                // interest calculation
                 interest = principal * rate;
                 principal += interest;
 
-                // Rate modification
+                // rate modification
                 if (i == indexOfRateIncrease) { rate = 0.06 / SECONDS_MULIPLIER; }
 
-                // Deposits
+                // deposits
                 if (deposits.has(i)) {
                     principal += deposits.get(i);   
                 }
             }
 
-            $("#money").text(`$${principal.toFixed(2)}`);
+            $("#money")
+                .text(`$${principal.toFixed(2)}`)
+                .after("<sub><small> + $" + (interest * 60 * 60 * 24).toFixed(3) + " / day</small></sub>");
 
         });
     </script>
