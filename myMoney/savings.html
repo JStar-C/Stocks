@@ -133,19 +133,31 @@
         <h1><span class="clouds">🌧</span>The Rainy Day Fund<span class="clouds">🌧</span></h1>
     </center>
 
-    <center>Your savings total: <span id="money"></span></center>
+    <center>
+        Your savings total: <span id="money"></span>
+    <br>
+        <span style="font-size:60%">
+            Investments: <span id="investments"></span> 
+            + 
+            Alibaba: <span id="alibaba"></span>
+        </span>
+    </center>
     <p><span class="notice">Update</span>: as of 02/08/2021, interest rate was increased to 6%</p>
-    <p><span class="notice">Update</span>: as of 02/24/2021, interest will be compounded each second retroactively</p>
+    <p><span class="notice">Update</span>: as of 02/24/2021, interest will now be compounded each second</p>
     <span id="sticker">Not FDIC insured, investments may lose value</span>
     <div id="deposits"></div>
 
     <!-- jQuery plug-in -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <!-- main script -->
     <script>
-        $(document).ready(function() {
+        $(document).ready(setup());
+            
+        async function setup() {
             const SECONDS_MULIPLIER = 365 * 24 * 60 * 60; // days, hours, minutes, seconds
 
-            let startDate = new Date("2021-01-14");
+            let startDate = new Date("2020-01-14");
                 startDate = startDate.getTime() / 1000;
             let endDate = Date.now() / 1000;
 
@@ -163,7 +175,8 @@
             let deposits = new Map();
             let depositsDateAmount = [
                 { date : "2021-02-26", amount : 20.00  },
-                { date : "2021-01-14", amount : 100.00 }
+                { date : "2021-01-14", amount : 100.00 },
+                { date : "2021-04-12", amount : 20.00  }
             ];
 
             depositsDateAmount.forEach(function (currentValue, index, arr) {
@@ -187,11 +200,25 @@
                 }
             }
 
+            let BABA = await get_alibaba_price()
+
             $("#money")
-                .text(`$${principal.toFixed(2)}`)
+                .text(`$${(principal + BABA).toFixed(2)}`)
                 .after("<sub><small> + $" + (interest * 60 * 60 * 24).toFixed(3) + " / day</small></sub>");
 
-        });
+            $("#investments").text(`$${principal.toFixed(2)}`);
+
+            $("#alibaba").text(`$${(BABA).toFixed(2)}`)
+
+        }
+
+        async function get_alibaba_price () {
+            const url = "https://finnhub.io/api/v1/quote?symbol=BABA&token=bu1s0en48v6sao5lvgs0";
+            const response = await fetch(url);
+            var data = await response.json();
+            return (data.c * .083998320034);
+        }
+
     </script>
 </body>
 
