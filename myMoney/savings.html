@@ -81,6 +81,17 @@
             text-shadow: 0px 20px 55px rgb(75, 210, 255);
         }
 
+        #investments {
+            color: rgb(204, 0, 255);
+            text-shadow: 0px 0px 25px rgb(204, 0, 255);
+        }
+
+        #alibaba {
+            color: rgb(255, 145, 0);
+            text-shadow: 0px 0px 25px rgb(255, 145, 0);
+        }
+
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 /* https://www.gradient-animator.com/ */
@@ -137,13 +148,14 @@
         Your savings total: <span id="money"></span>
     <br>
         <span style="font-size:60%">
-            Investments: <span id="investments"></span> 
+            Savings: <span id="investments"></span> 
             + 
             Alibaba: <span id="alibaba"></span>
         </span>
     </center>
     <p><span class="notice">Update</span>: as of 02/08/2021, interest rate was increased to 6%</p>
-    <p><span class="notice">Update</span>: as of 02/24/2021, interest will now be compounded each second</p>
+    <p><span class="notice">Update</span>: as of 02/24/2021, interest will be compounded each second</p>
+    <p><span class="notice">Update</span>: as of 04/12/2021, $20 was invested in Alibaba stock</p>
     <span id="sticker">Not FDIC insured, investments may lose value</span>
     <div id="deposits"></div>
 
@@ -176,7 +188,7 @@
             let depositsDateAmount = [
                 { date : "2021-02-26", amount : 20.00  },
                 { date : "2021-01-14", amount : 100.00 },
-                //{ date : "2021-04-12", amount : 20.00  }
+                { date : "2021-04-12", amount : 200.00 }
             ];
 
             depositsDateAmount.forEach(function (currentValue, index, arr) {
