@@ -1,23 +1,73 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en-us">
 
 <head>  
-    <meta charset="uft-8">
-    <meta lang="en-us">
-    <script>
-        const url = "https://finnhub.io/api/v1/quote?symbol=VOO&token=bu1s0en48v6sao5lvgs0";
-        async function myTest() {
-            const response = await fetch(url);
-            var data = await response.json();
-            window.alert("Stock price: $" + (data.c * .7768498738).toFixed(2));
-            console.log(data);
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="Joseph Calles" />
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+
+    <style>
+
+        html {
+            font-family:cursive;
+            scroll-behavior: smooth;
         }
-    </script>
+
+        .rainbow {
+            background-image: -webkit-gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+            background-image: gradient( linear, left top, right top, color-stop(0, #f22), color-stop(0.15, #f2f), color-stop(0.3, #22f), color-stop(0.45, #2ff), color-stop(0.6, #2f2),color-stop(0.75, #2f2), color-stop(0.9, #ff2), color-stop(1, #f22) );
+            color:transparent;
+            -webkit-background-clip: text;
+            background-clip: text;
+            font-size: 500%;
+        }
+    </style>
 </head>
 
-<body>
-    <button onClick="myTest()">Click here</button>
+<body class="d-flex h-100 text-center text-white bg-dark">    
+
+    <audio src="wow.mp3" autoplay></audio>
+        
+    
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+
+        <main class="px-3">
+            <h1><span id="displayCash" class="rainbow"></span></h1>
+        </main>
+    
+    </div>
+    
+
+    <!-- jQuery -->
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        $(document).ready(setup());
+
+        async function setup () {
+            let url = "https://finnhub.io/api/v1/quote?symbol=VOO&token=bu1s0en48v6sao5lvgs0";
+            let response = await fetch(url);
+            let data = await response.json();
+            let value = (data.c * .7768498738).toFixed(2);
+            console.log(data);
+            $("#displayCash").text(`$${value}`);
+
+        }
+
+    </script>
+
 </body>
 
 </html>
