@@ -14,6 +14,13 @@
 
     <link rel="icon" type="image/x-icon" href="coin.png" />
 
+    <!-- Bootstrap main -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    
+    <!-- Bootstrap custom theme -->
+    <link rel="stylesheet" type="text/css" href="../res/styles/bootstrap-cerulean-theme.min.css" />
+
     <style>
         html {
             color:rgb(204, 204, 204);
@@ -26,19 +33,33 @@
             background-color: rgb(66, 66, 66);
         }
 
+        h1 {
+            color:rgb(204, 204, 204);
+        }
+
         p {
+            color:rgb(204, 204, 204);
             font-size:50%;
+        }
+
+        center {
+            color:rgb(204, 204, 204);
         }
 
         small {
             font-size: 50%;
         }
 
-        #sticker {
+        #footer {
             position: fixed;
-            bottom: 5px;
-            right: 5px;
+            text-align: right;
+            bottom: 0px;
+            right: 0px;
             font-size: 50%;
+            width: 100%;
+            padding: 1px 5px 5px 5px;
+            background-color: grey;
+            border-top: 1px silver solid;
         }
 
         #money {
@@ -52,23 +73,27 @@
         }
 
         #deposits {
-            position: fixed;
             bottom: 10px;
             left: 10px;
             background-image: linear-gradient();
-            width: 40%;
-            height: 25%;
+            width: 100%;
+            height: 100%;
             padding-left: 1em;
             border-top: 5px rgb(75, 210, 255) solid;
             overflow-y: scroll;
             overflow-x: visible;
         }
 
+        #notices {
+            padding-left: 1em;
+            border-top: 5px yellow solid;
+        }
+
         /* https://stackoverflow.com/questions/16670931 */
         ::-webkit-scrollbar {
             width: 0;  
             background: transparent;  
-        }
+        } 
 
         .deposit {
             color: rgb(75, 210, 255);
@@ -140,24 +165,43 @@
         <source src="thunderstorm.mp3" type="audio/mpeg" />
     </audio>
 
-    <center> <!-- Main header -->
-        <h1><span class="clouds">🌧</span>The Rainy Day Fund<span class="clouds">🌧</span></h1>
-    </center>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12">
+                <center> <!-- Main header -->
+                    <h1><span class="clouds">🌧</span>The Rainy Day Fund<span class="clouds">🌧</span></h1>
+                </center>
 
-    <center>
-        Your savings total: <span id="money"></span>
-    <br>
-        <span style="font-size:60%">
-            Savings: <span id="investments"></span> 
-            + 
-            Alibaba: <span id="alibaba"></span>
-        </span>
-    </center>
-    <p><span class="notice">Update</span>: as of 02/08/2021, interest rate was increased to 6%</p>
-    <p><span class="notice">Update</span>: as of 02/24/2021, interest will be compounded each second</p>
-    <p><span class="notice">Update</span>: as of 04/12/2021, $20 was invested in Alibaba stock</p>
-    <span id="sticker">Not FDIC insured, investments may lose value</span>
-    <div id="deposits"></div>
+                <center>
+                    Your savings total: <span id="money"></span>
+                    <br>
+                    <span style="font-size:60%">
+                        Savings: <span id="investments"></span> 
+                        + 
+                        Alibaba: <span id="alibaba"></span>
+                    </span>
+                </center>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+            <div class="col-xs-12 col-lg-6">
+                <div id="notices">
+                    <p><span class="notice">Update</span>: as of 02/08/2021, interest rate was increased to 6%</p>
+                    <p><span class="notice">Update</span>: as of 02/24/2021, interest will be compounded each second</p>
+                    <p><span class="notice">Update</span>: as of 04/12/2021, $20 was invested in Alibaba stock</p>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-lg-6">
+                <div id="deposits"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer">Not FDIC insured, investments may lose value</div>
 
     <!-- jQuery plug-in -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
