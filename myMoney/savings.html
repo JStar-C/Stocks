@@ -193,6 +193,7 @@
         <div class="row">
             <div class="col-xs-12 col-lg-6">
                 <div id="notices">
+                    <p><span class="notice">Update</span>: as of 06/29/2023, Alibaba stock was traded for KBWB ETF</p>  
                     <p><span class="notice">Update</span>: as of 04/12/2021, $20 was invested in Alibaba stock</p>                    
                     <p><span class="notice">Update</span>: as of 02/24/2021, interest will be compounded each second</p>                    
                     <p><span class="notice">Update</span>: as of 02/08/2021, interest rate was increased to 6%</p>
@@ -250,7 +251,8 @@
                 { date : "2022-10-04T00:00:00Z", amount :  -52.00 },
                 { date : "2022-10-08T00:00:00Z", amount :  -50.00 },
                 { date : "2023-04-17T00:00:00Z", amount :   -5.00 },
-                { date : "2023-04-15T00:00:00Z", amount :  -20.00 }
+                { date : "2023-04-15T00:00:00Z", amount :  -20.00 },
+                { date : "2023-06-29T00:00:00Z", amount :  -70.00 }
             ];
 
             depositsDateAmount.reverse();
@@ -284,26 +286,26 @@
                 }
             }
 
-            let [BABA_val, BABA_delta] = await get_alibaba_price()
+            let [KBWB_val, KBWB_delta] = await get_KBWB_price()
 
             $("#money")
-                .text(`$${(principal + BABA_val).toFixed(2)}`)
+                .text(`$${(principal + KBWB_val).toFixed(2)}`)
                 .after("<sub><small> + $" + (interest * 60 * 60 * 24).toFixed(3) + " / day</small></sub>");
 
             $("#investments").text(`$${principal.toFixed(2)}`);
 
             $("#stock")
-                .text(`$${(BABA_val).toFixed(2)}`)
-                .after("<small class=\"stock\"> " + (BABA_delta < 0 ? "-" : "+") + " $" + Math.abs(BABA_delta.toFixed(2)) + " since yesterday</small>");
+                .text(`$${(KBWB_val).toFixed(2)}`)
+                .after("<small class=\"stock\"> " + (KBWB_delta < 0 ? "-" : "+") + " $" + Math.abs(KBWB_delta.toFixed(2)) + " since yesterday</small>");
 
         }
 
-        async function get_alibaba_price () {
-            const url = "https://finnhub.io/api/v1/quote?symbol=BABA&token=bu1s0en48v6sao5lvgs0";
+        async function get_KBWB_price () {
+            const url = "https://finnhub.io/api/v1/quote?symbol=KBWB&token=bu1s0en48v6sao5lvgs0";
             const response = await fetch(url);
             var data = await response.json();
             console.log(data);
-            return [(data.c * .083998320034), (data.d * .083998320034)];
+            return [(data.c * 0.2428363283147159), (data.d * 0.2428363283147159)];
         }
 
     </script>
